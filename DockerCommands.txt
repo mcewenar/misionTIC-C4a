@@ -1,0 +1,62 @@
+1. ver versión de Docker
+docker -- version
+2. Listar imágenes en Docker:
+docker images
+3. Listar contenedores activos:
+docker ps
+4. Listar todos los contenedores:
+docker ps -a
+5. eliminar un contenedor:
+docker container rm -f <nameContainer>
+6. Frenar o apagar un contenedor:
+docker stop <NombreContenedor>
+7. Ingresar a un contenedor:
+docker exec -it <hashContenedor> bash
+8. Comando Linux para instalar aplicaciones manualmente:
+    -apt-get install <nombreApp>
+    -apt-get update (actualiza microkernel)
+    -cat <nombreArchivo> (para visualizar en consola archivo seleccionado)
+    -cd <file> moverse entre archivos
+    -cd .. (devolverse)
+9. crear y correr un contenedor:
+docker run -itd --name <nombreContenedorCrear> <ImagenAPartirDeLaQueSeCrea>
+10. Inspeccionar el contenedor:
+docker inspect
+11. Eliminar imagen:
+docker rmi -f UserDocker/NombreImagen
+12. Crear y correr un contenedor en un puerto definido:
+docker run -itd -p 3000(anfitrión):80(huesped) --name contenedorName
+13. Mirar los logs:
+docker logs <hashContenedor>
+14. Prender contenedor:
+docker stop <NombreContenedor>
+15. Crear una imagen a partir de un contenedor:
+docker commit <contenedorName o hash> <NombreRepoDockerHub>
+16. Crear imagen a partir de un Dockerfile:
+docker built -t <NombreImagen>
+17. Actualiza la configuración de un contenedor:
+docker update <NombreContenedor>
+18. Crear un contenedor sin correrlo:
+docker create <Nombre o hash de imagen>
+19. Renombrar un contenedor: 
+docker rename <NombreViejo> <NombreNuevo>
+20. Remover un contenedor después de que pare:
+docker run -rm <NombreImagen>
+21. Empujar una imagen:
+docker push <imagen>
+22. halar una imagen:
+docker pull <imagen>
+
+
+
+
+Dockerfile puede tener varios elementos:
+FROM:
+RUN:
+CMD:
+EXPOSE:
+COPY:
+ADD:
+VOLUME:
+WORKDIR:
+ENTRY POINT:
