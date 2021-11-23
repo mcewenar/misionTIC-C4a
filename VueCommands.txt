@@ -1,0 +1,17 @@
+------vue.js------
+1)crear un proyecto en vue.js:
+vue create project_adoptame
+2)moverse a la carpeta del proyecto:
+cd project_adoptame
+3)Correr el servidor con npm:
+npm run serve
+3.1)Correr el servidor con otro gestor de paquetes:
+yarn serve.
+4)Instalar axios para peticiones HTTP:
+ npm install axios (para Yarn, usar: yarn add axios)
+5) Instalar todos los paquetes de vue.js cuando se trae un repositorio:
+npm i 
+6) Crear server-static y express:
+npm install express serve-static --save
+7)
+
