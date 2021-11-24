@@ -1,0 +1,4 @@
+from .providerViews import TestView, ProviderListCreateViews, ProviderRetrieveUpdateDestroy
+from .customerViews import CustomerListCreateView, CustomerRetrieveUpdateDestroy
+from .orderViews import CRUD_Order, CRUD_Order2
+from .shippingViews import ShippingListCreateView, ShippingRetrieveUpdateDestroy
