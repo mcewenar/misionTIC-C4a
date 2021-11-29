@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { toast } from 'bulma-toast'
 
 import ProductBox from '@/components/ProductBox'
@@ -42,33 +41,7 @@ export default {
         }
     },
     methods: {
-        async getCategory() {
-            const categorySlug = this.$route.params.category_slug
-
-            this.$store.commit('setIsLoading', true)
-
-            axios
-                .get(`/api/v1/products/${categorySlug}/`)
-                .then(response => {
-                    this.category = response.data
-
-                    document.title = this.category.name + ' | Nous'
-                })
-                .catch(error => {
-                    console.log(error)
-
-                    toast({
-                        message: 'Something went wrong. Please try again.',
-                        type: 'is-danger',
-                        dismissible: true,
-                        pauseOnHover: true,
-                        duration: 2000,
-                        position: 'bottom-right',
-                    })
-                })
-
-            this.$store.commit('setIsLoading', false)
-        }
+       
     }
 }
 </script>

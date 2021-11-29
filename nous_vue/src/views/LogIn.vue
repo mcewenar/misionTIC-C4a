@@ -2,7 +2,7 @@
     <div class="page-log-in">
         <div class="columns">
             <div class="column is-4 is-offset-4">
-                <h1 class="title">Log in</h1>
+                <h1 class="title">Log In</h1>
 
                 <form @submit.prevent="submitForm">
                     <div class="field">
@@ -25,13 +25,13 @@
 
                     <div class="field">
                         <div class="control">
-                            <button class="button is-dark">Log in</button>
+                            <button class="button is-dark">Log In</button>
                         </div>
                     </div>
 
                     <hr>
 
-                    Or <router-link to="/sign-up">click here</router-link> to sign up!
+                    Or <router-link to="/sign-up">Click Aqui</router-link> para Loguearte!
                 </form>
             </div>
         </div>
@@ -39,8 +39,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
     name: 'LogIn',
     data() {
@@ -54,43 +52,6 @@ export default {
         document.title = 'Log In | Nous'
     },
     methods: {
-        async submitForm() {
-            axios.defaults.headers.common["Authorization"] = ""
-
-            localStorage.removeItem("token")
-
-            const formData = {
-                username: this.username,
-                password: this.password
-            }
-
-            await axios
-                .post("/api/v1/token/login/", formData)
-                .then(response => {
-                    const token = response.data.auth_token
-
-                    this.$store.commit('setToken', token)
-                    
-                    axios.defaults.headers.common["Authorization"] = "Token " + token
-
-                    localStorage.setItem("token", token)
-
-                    const toPath = this.$route.query.to || '/cart'
-
-                    this.$router.push(toPath)
-                })
-                .catch(error => {
-                    if (error.response) {
-                        for (const property in error.response.data) {
-                            this.errors.push(`${property}: ${error.response.data[property]}`)
-                        }
-                    } else {
-                        this.errors.push('Something went wrong. Please try again')
-                        
-                        console.log(JSON.stringify(error))
-                    }
-                })
         }
-    }
 }
 </script>

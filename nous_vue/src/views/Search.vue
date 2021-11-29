@@ -16,9 +16,7 @@
 </template>
 
 <script>
-import axios from 'axios'
 import ProductBox from '@/components/ProductBox.vue'
-
 export default {
     name: 'Search',
     components: {
@@ -46,17 +44,8 @@ export default {
         async performSearch() {
             this.$store.commit('setIsLoading', true)
 
-            await axios
-                .post('/api/v1/products/search/', {'query': this.query})
-                .then(response => {
-                    this.products = response.data
-                })
-                .catch(error => {
-                    console.log(error)
-                })
 
-            this.$store.commit('setIsLoading', false)
-        }
     }
+}
 }
 </script>

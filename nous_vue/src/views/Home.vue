@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 import ProductBox from '@/components/ProductBox'
 
 export default {
@@ -45,20 +43,7 @@ export default {
     document.title = 'Home | Nous'
   },
   methods: {
-    async getLatestProducts() {
-      this.$store.commit('setIsLoading', true)
-
-      await axios
-        .get('/api/v1/latest-products/')
-        .then(response => {
-          this.latestProducts = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-
-      this.$store.commit('setIsLoading', false)
+   
     }
-  }
 }
 </script>
