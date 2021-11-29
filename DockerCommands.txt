@@ -72,8 +72,10 @@ You need to tag your image correctly first with your registryhost:
     docker push NAME[:TAG]
     Example:
 
-    docker tag 518a41981a6a myRegistry.com/myImage
-    docker push myRegistry.com/myImage
+    docker tag 518a41981a6a myRegistry.com/
+    
+29. crear un contenedor y correrlo en un puerto:
+docker run -dit --name <NombreContenedorACreAr> -p 8080:8080 <NombreDeLaImagen>
 
 
 
