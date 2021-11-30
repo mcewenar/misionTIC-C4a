@@ -33,10 +33,10 @@ docker inspect
 11. Eliminar imagen:
 docker rmi -f <UserDocker/NombreImagen> ó <hashImage>
 12. Crear y correr un contenedor en un puerto definido:
-docker run -itd -p 3000(anfitrión):80(huesped) --name contenedorName
+docker run -itd -p 3000(anfitrión):80(huesped) --name contenedorName nombreImagenConElQueSeCrea
 13. Mirar los logs:
 docker logs <hashContenedor>
-14. Prender contenedor:
+14. Pausar contenedor:
 docker stop <NombreContenedor>
 15. Crear una imagen a partir de un contenedor (no necesariamente prendido):
 docker commit <contenedorName o hash> <NombreRepoDockerHub>
@@ -55,11 +55,27 @@ docker push <imagen>
 22. halar una imagen:
 docker pull <imagen>
 23. Crear una imagen a partir de un Dockerfile:
-docker build -t <nombre_imagen>
+docker build -t <nombre_imagen> .
 24. Crear un contenedor con puerto a partir de una imagen:
 docker run -p 4000:4000 -e URL=0.0.0.0:4000 <hash de la imagen>
 25. Salir del contenedor:
 exit
+26. Prender un contenedor:
+docker start <name o hash del contenedor>
+
+27 y 28. CÓMO SUBIR UNA IMAGEN A DOCKERHUB:
+You need to tag your image correctly first with your registryhost:
+
+    docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]
+    Then docker push using that same tag.
+
+    docker push NAME[:TAG]
+    Example:
+
+    docker tag 518a41981a6a myRegistry.com/
+    
+29. crear un contenedor y correrlo en un puerto:
+docker run -dit --name <NombreContenedorACreAr> -p 8080:8080 <NombreDeLaImagen>
 
 
 

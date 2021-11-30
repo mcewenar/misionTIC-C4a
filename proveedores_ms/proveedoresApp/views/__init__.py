@@ -1,0 +1,1 @@
+from .proveedorView import ProveedorListCreateView,ProveedorRetrieveUpdateDestroy
