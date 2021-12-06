@@ -41,7 +41,7 @@ docker stop <NombreContenedor>
 15. Crear una imagen a partir de un contenedor (no necesariamente prendido):
 docker commit <contenedorName o hash> <NombreRepoDockerHub>
 16. Crear imagen a partir de un Dockerfile:
-docker built -t <NombreImagen>
+docker built -t <NombreImagen> .
 17. Actualiza la configuración de un contenedor:
 docker update <NombreContenedor>
 18. Crear un contenedor sin correrlo:

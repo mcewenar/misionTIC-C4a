@@ -1,0 +1,25 @@
+1. Instalar proyecto de node package.json:
+npm init -y
+2. instalar dependencias (también se puede hacer de forma manual en package.json):
+npm install <NombreDependencia>
+3. para ejecutar el proyecto (si estás parado en la carpeta del proyecto "api_gateway_nous"):
+node src/index.js
+4. Para ejecutar node de una forma más simple (configurado en package.json):
+npm start
+5. importar archivos .mjs desde el servidor (ignorar)
+node --experimental_modules src/index.mjs
+6. importar un módulo:
+const nameVar = require("./path")
+8. importar express:
+const app = express()
+app.get('/namePath',(req,res)=>{ (callback)
+    console.log("hola")
+})
+9. Otra forma de importar a partir de una dependencia instalada:
+import { Express } from "express"
+10. exportar módulos creados (al final del script, escribir):
+module.exports = {funct1, funct2...}
+11. Instalar apollo server:
+npm install apollo-server graphql
+12. Instalar node fetch, para hacer peticiones tipo fetch en node.js:
+npm i node-fetch
