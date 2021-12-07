@@ -1,0 +1,3 @@
+from .productsViews import ProductListCreateView, ProductRetrieveUpdateDestroy
+from .typeViews import TypeListCreateView, TypeRetrieveUpdateDestroy
+from .photoViews import PhotoListCreateView, PhotoRetrieveUpdateDestroy

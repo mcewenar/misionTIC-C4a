@@ -1,0 +1,5 @@
+/env/
+/pycache/
+*$py.class
+/.mypy_cache/
+/db.sqlit3
