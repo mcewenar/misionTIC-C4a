@@ -1,0 +1,6 @@
+mvnw package // crea el jar empaquta
+heroku login
+heroku container:login
+heroku create nombre-app ///no es necesario despues de mod
+heroku container:push web --app nombre-app
+heroku container:release web --app nombre-app
