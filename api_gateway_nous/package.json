@@ -1,7 +1,7 @@
 {
   "name": "api_gateway_nous",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
@@ -9,5 +9,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "api gateway with graphql"
+  "description": "api gateway with graphql",
+  "dependencies": {
+    "apollo-datasource-rest": "^3.1.1",
+    "apollo-server": "^3.1.2",
+    "graphql": "^15.5.1",
+    "lodash": "^4.17.21",
+    "node-fetch": "^2.6.1"
+  }
 }
