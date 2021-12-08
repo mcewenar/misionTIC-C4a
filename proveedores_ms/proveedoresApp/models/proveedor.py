@@ -12,3 +12,4 @@ class Proveedor(models.Model):
     address = models.CharField('Address',max_length=80,null=False)
     city = models.CharField('City',max_length=50,null=False)
     email = models.EmailField('Email', max_length = 100,null=True)
+    
