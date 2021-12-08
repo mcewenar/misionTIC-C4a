@@ -9,7 +9,7 @@ from proveedoresApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('proveedores/',views.ProveedorListCreateView.as_view()), #Ver todos los proveedores, crear un proveedor. Usar / al final
-    path('proveedor/<int:pk>',views.ProveedorRetrieveUpdateDestroy.as_view()), #Borrar, editar y consultar un 
+    path('proveedor/<int:pk>/',views.ProveedorRetrieveUpdateDestroy.as_view()), #Borrar, editar y consultar un proveedor. Con / al final
 ]
 
 

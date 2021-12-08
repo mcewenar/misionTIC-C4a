@@ -5,5 +5,4 @@ const proveedorTypeDefs = require('./proveedores_type_defs');
 //Se unen
 const schemasArrays = [authTypeDefs, proveedorTypeDefs];
 //Se exportan
-
 module.exports = schemasArrays

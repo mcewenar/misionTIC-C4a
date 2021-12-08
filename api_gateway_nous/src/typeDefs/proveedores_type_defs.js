@@ -1,6 +1,7 @@
 const { gql } = require('apollo-server');
 const proveedorTypeDefs = gql `
     type Proveedor {
+        idRegister: Int!
         name_company: String!
         name_contact: String!
         cel: Int!
@@ -10,10 +11,12 @@ const proveedorTypeDefs = gql `
 
     }
     extend type Query {
-        proveedorByUsername(name_company: String!): Proveedor
+        proveedorByUsername(name_company: String!): Proveedor!
     }
     extend type Mutation {
-        createProveedor(proveedor: ProveedorInput!): Proveedor
+        createProveedor(proveedor: Proveedor!): Proveedor
+        updateProveedor(proveedor: Proveedor!): Proveedor
+        deleteProveedor(name_company:String!): String
     }
 
 `;
