@@ -25,9 +25,6 @@ const authTypeDefs = gql `
         email: String!
     }
     type Mutation {
-        signUpUser(userInput :SignUpInput): Tokens!
-        logIn(credentials: CredentialsInput!): Tokens!
-        refreshToken(refresh: String!): Access!
     }
     type Query {
         userDetailById(userId: Int!): UserDetail!

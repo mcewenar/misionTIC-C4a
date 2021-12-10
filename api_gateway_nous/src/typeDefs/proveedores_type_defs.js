@@ -10,8 +10,23 @@ const proveedorTypeDefs = gql `
         email: String!
 
     }
+    type ProveedorUpdate {
+        idRegister: Int
+        name_company: String
+        name_contact: String
+        cel: Int
+        address: String
+        city: String
+        email: String
+
+    }
+
     extend type Query {
-        proveedorByUsername(name_company: String!): Proveedor!
+        proveedorById(idRegister: Int): Proveedor!
+        proveedorAll(allProvider: Proveedor!): [Proveedor!]
+    }
+    extend type Query {
+        
     }
     extend type Mutation {
         createProveedor(proveedor: Proveedor!): Proveedor
