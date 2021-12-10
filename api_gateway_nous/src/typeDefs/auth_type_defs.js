@@ -15,6 +15,7 @@ const authTypeDefs = gql `
         username: String!
         password: String!
         name: String!
+        lastname: String!
         email: String!
     }
     type UserDetail {
@@ -22,6 +23,7 @@ const authTypeDefs = gql `
         username: String!
         password: String!
         name: String!
+        lastname: String!
         email: String!
     }
     type Mutation {
