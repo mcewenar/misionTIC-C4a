@@ -110,3 +110,5 @@ heroku apps
 heroku container:push web --app <nombre-del-Contenedor-en-la-nube-heroku>
 5. Mostrar el contenedor:
 heroku container:realease web --app <mismo-Nombre-del-punto-4>
+6. Revisar error en el despliegue del contenedor
+heroku logs --tail

@@ -1,12 +1,11 @@
 const providerResolver = {
     Query: {
-        proveedorByUsername: async(_,{userInput}, {dataSources,userIdToken}) => {
+        proveedorById: async(_,{userInput}, {dataSources,userIdToken}) => {
             return await dataSources.ProveedorAPI.getProviderByName(userInput)
-        },
-        proveedorAll: async(_,{userInput}, {dataSources,userIdToken}) => {
-            return await dataSources.ProveedorAPI.getAllProvider(userInput)
         }
-
+        //proveedorAll: async(_,{userInput}, {dataSources,userIdToken}) => {
+        //    return await dataSources.ProveedorAPI.getAllProvider(userInput)
+        //}
     },
     Mutation: {
         createProveedor: async(_,{proveedor}, {dataSources,userIdToken}) => {

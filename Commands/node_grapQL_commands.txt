@@ -26,3 +26,5 @@ module.exports = {funct1, funct2...}
 npm install apollo-server graphql
 12. Instalar node fetch, para hacer peticiones tipo fetch en node.js:
 npm i node-fetch
+13. Inicializar Node.js en el proyecto:
+node src/index.js
