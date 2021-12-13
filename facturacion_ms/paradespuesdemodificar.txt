@@ -2,5 +2,30 @@ mvnw package // crea el jar empaquta
 heroku login
 heroku container:login
 heroku create nombre-app ///no es necesario despues de mod
-heroku container:push web --app nombre-app
-heroku container:release web --app nombre-app
+heroku container:push web --app nous-factura-ms
+
+heroku container:release web --app nous-factura-ms
+
+
+registro de factura// en el api watwey debe ir con el token
+{
+  "factura": {
+    "username": "johan",
+    "address": "nuevadir",
+    "totalValue": 300,
+    "products": [
+      {
+        "idproduct": "asd",
+        "name": "ropanew",
+        "amount": 1,
+        "value": 100
+      },
+      {
+        "idproduct": "asdf",
+        "name": "ropanew2",
+        "amount": 2,
+        "value": 200
+      }
+    ]
+  }
+}

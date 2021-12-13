@@ -6,13 +6,16 @@ const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
 const AuthAPI = require("./dataSources/auth_api");
+const FacturaApi = require("./dataSources/factura_api");
 const authentication = require("./utils/authentication");
+
 const server = new ApolloServer({
     context: authentication,
     typeDefs,
     resolvers,
     dataSources: () => ({
       authAPI: new AuthAPI(),
+      facturaApi: new FacturaApi(),
     }),
     introspection: true,
     playground: true,
