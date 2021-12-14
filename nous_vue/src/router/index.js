@@ -1,4 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import gql from "graphql-tag";
+import { createRouter, createWebHistory } from "vue-router";
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 
 import store from '../store'
 
@@ -18,77 +20,124 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { requiresAuth: false }
   },
   {
     path: '/about',
     name: 'About',
-    component: () => import('../views/About.vue')
+    component: () => import('../views/About.vue'),
+    meta: { requiresAuth: false }
   },
   {
     path: '/sign-up',
     name: 'SignUp',
-    component: SignUp
+    component: SignUp,
+    meta: { requiresAuth: false }
   },
   {
     path: '/log-in',
     name: 'LogIn',
-    component: LogIn
+    component: LogIn,
+    meta: { requiresAuth: false }
   },
   {
     path: '/my-account',
     name: 'MyAccount',
     component: MyAccount,
     meta: {
-        requireLogin: true
+      requiresAuth: true
     }
   },
   {
     path: '/search',
     name: 'Search',
-    component: Search
+    component: Search,
+    meta: { requiresAuth: false }
   },
   {
     path: '/cart',
     name: 'Cart',
-    component: Cart
+    component: Cart,
+    meta: { requiresAuth: false }
   },
   {
     path: '/cart/success',
     name: 'Success',
-    component: Success
+    component: Success,
+    meta: { requiresAuth: false }
   },
   {
     path: '/cart/checkout',
     name: 'Checkout',
     component: Checkout,
     meta: {
-        requireLogin: true
+      requiresAuth: true
     }
   },
   {
     path: '/:category_slug/:product_slug',
     name: 'Product',
-    component: Product
+    component: Product,
+    meta: { requiresAuth: false }
   },
   {
     path: '/:category_slug',
     name: 'Category',
-    component: Category
+    component: Category,
+    meta: { requiresAuth: false }
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+  history: createWebHistory(),
+  routes,
+});
+
+const apolloClient = new ApolloClient({
+  link: createHttpLink({ uri: 'https://prueba-api-nous.herokuapp.com/' }),
+  cache: new InMemoryCache()
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requireLogin) && !store.state.isAuthenticated) {
-    next({ name: 'LogIn', query: { to: to.path } });
-  } else {
-    next()
+async function isAuth() {
+  if (localStorage.getItem("token_access") === null || localStorage.getItem("token_refresh") === null) {
+      return false;
   }
+
+  try {
+      var result = await apolloClient.mutate({
+          mutation: gql `
+              mutation ($refresh: String!) {
+                  refreshToken(refresh: $refresh) {
+                      access
+                  }
+              }
+          `,
+          variables: {
+              refresh: localStorage.getItem("token_refresh"),
+          },
+      })
+
+      localStorage.setItem("token_access", result.data.refreshToken.access);
+      return true;
+  } catch {
+      localStorage.clear();
+      alert("Su sesión expiró, por favor vuelva a iniciar sesión");
+      return false;
+  }
+}
+
+router.beforeEach(async(to, from) => {
+  var is_auth = await isAuth();
+
+  if (is_auth == to.meta.requiresAuth) return true
+  if (is_auth) return { name: "Home" };
+  return { name: "LogIn" };
 })
 
-export default router
+export default router;
+
+
+
+
+

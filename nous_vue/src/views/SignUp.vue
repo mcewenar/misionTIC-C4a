@@ -13,6 +13,27 @@
                     </div>
 
                     <div class="field">
+                        <label>name</label>
+                        <div class="control">
+                            <input type="text" class="input" v-model="name">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>lastname</label>
+                        <div class="control">
+                            <input type="text" class="input" v-model="lastname">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>email</label>
+                        <div class="control">
+                            <input type="text" class="input" v-model="email">
+                        </div>
+                    </div>
+
+                    <div class="field">
                         <label>Password</label>
                         <div class="control">
                             <input type="password" class="input" v-model="password">
@@ -46,8 +67,9 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { toast } from 'bulma-toast'
+import gql from "graphql-tag";
+
+
 
 export default {
     name: 'SignUp',
@@ -55,12 +77,15 @@ export default {
         return {
             username: '',
             password: '',
+            name:'',
+            lastname:'',
+            email: '',
             password2: '',
             errors: []
         }
     },
     methods: {
-        submitForm() {
+        submitForm: async function() {
             this.errors = []
 
             if (this.username === '') {
@@ -78,11 +103,42 @@ export default {
             if (!this.errors.length) {
                 const formData = {
                     username: this.username,
-                    password: this.password
-                }
+                    name: this.name,
+                    lastname: this.lastname,
+                    email: this.email,
+                    password: this.password,
 
                 }
+                await this.$apollo
+                    .mutate({
+                    mutation: gql`
+                        mutation($userInput: SignUpInput!) {
+                            signUpUser(userInput: $userInput) {
+                                refresh
+                                access
+                            }
+                        }
+                    `,
+                    variables: {
+                        userInput: formData,
+                    },
+                    })
+                    .then((result) => {
+                        let dataLogIn = {
+                            username: formData.username,
+                            token_access: result.data.signUpUser.access,
+                            token_refresh: result.data.signUpUser.refresh,
+                        };
+                    this.$emit("completedSignUp", dataLogIn);
+                    //this.$App.completedSignUp
+                    console.log("entro en emit");
+                    })
+                    .catch((error) => {
+                    alert("ERROR: Fallo en el registro.");
+                    });
+
             }
         }
+    }
 }
 </script>

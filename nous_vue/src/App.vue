@@ -87,7 +87,8 @@
     </div>
 
     <section class="section">
-      <router-view />
+      <router-view v-on:completedSignUp="completedSignUp">
+      </router-view>
     </section>
 
     <footer class="footer">
@@ -112,6 +113,61 @@
 </template>
 
 <script>
+export default {
+  name: 'App',
+
+  computed: {
+    is_auth: {
+      get: function() {
+        return this.$route.meta.requiresAuth;
+      },
+      set: function() { }
+    }
+  },
+
+  methods:{
+
+    loadLogIn: function(){
+      this.$router.push({name: "LogIn"})
+    },
+
+    loadSignUp: function(){
+      this.$router.push({name: "signUp"})
+    },
+
+    completedLogIn: function(data) {
+			localStorage.setItem("username", data.username);
+			localStorage.setItem("token_access", data.token_access);
+			localStorage.setItem("token_refresh", data.token_refresh);
+			alert("Autenticación Exitosa");
+			this.loadHome();
+    },
+
+    completedSignUp: function(data) {
+      console.log("carga");
+			alert("Registro Exitoso");
+			this.completedLogIn(data);
+    },
+
+    loadHome: function() {
+      this.$router.push({ name: "Home" });
+    },
+
+    loadAccount: function () {
+			this.$router.push({ name: "account" });
+		},
+
+    loadTransaction: function(){
+      this.$router.push({ name: "transaction" });
+    },
+
+    logOut: function () {
+			localStorage.clear();
+			alert("Sesión Cerrada");
+      this.loadLogIn();
+		},
+  }
+}
 </script>
 
 <style lang="scss">
