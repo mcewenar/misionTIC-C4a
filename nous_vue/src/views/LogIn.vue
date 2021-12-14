@@ -31,7 +31,7 @@
 
                     <hr>
 
-                    Or <router-link to="/sign-up">Click Aqui</router-link> para Loguearte!
+                    Or <router-link to="/sign-up">Click Aqui</router-link> para Registrarte!
                 </form>
             </div>
         </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag';
 export default {
     name: 'LogIn',
     data() {
@@ -52,6 +53,45 @@ export default {
         document.title = 'Log In | Nous'
     },
     methods: {
+        submitForm: async function(){
+            const formData = {
+                    username: this.username,
+                    password: this.password,
+
+                }
+            await this.$apollo
+            .mutate({
+                mutation: gql`
+                mutation($credentials: CredentialsInput!){
+                    logIn(credentials: $credentials){
+                        refresh
+                        access
+                    }
+                }
+                `,
+                
+                variables:{
+                    credentials: formData,
+                }
+                
+            })
+                .then((result) => {
+                    let dataLogIn = {
+                        username: formData.username,
+                        token_access: result.data.logIn.access,
+                        token_refresh: result.data.logIn.refresh,
+                    }
+                    
+                    this.$emit('completedLogIn', dataLogIn)
+                })
+                .catch((error) => {
+                    console.log("aca el error:")
+                    console.log(error)
+                    if (error.response.status == "401")
+                        alert("ERROR 401: Credenciales Incorrectas.");
+                    
+                });
+        }
         }
 }
 </script>

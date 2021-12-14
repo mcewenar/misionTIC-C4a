@@ -95,7 +95,7 @@ const router = createRouter({
 });
 
 const apolloClient = new ApolloClient({
-  link: createHttpLink({ uri: 'https://prueba-api-nous.herokuapp.com/' }),
+  link: createHttpLink({ uri: 'http://localhost:4000/' }),
   cache: new InMemoryCache()
 })
 
@@ -131,7 +131,7 @@ router.beforeEach(async(to, from) => {
   var is_auth = await isAuth();
 
   if (is_auth == to.meta.requiresAuth) return true
-  if (is_auth) return { name: "Home" };
+  if (is_auth) return { name: "MyAccount" };
   return { name: "LogIn" };
 })
 

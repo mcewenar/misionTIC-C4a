@@ -129,9 +129,10 @@ export default {
                             token_access: result.data.signUpUser.access,
                             token_refresh: result.data.signUpUser.refresh,
                         };
+                        console.log("entro en emit.......");
                     this.$emit("completedSignUp", dataLogIn);
                     //this.$App.completedSignUp
-                    console.log("entro en emit");
+                    
                     })
                     .catch((error) => {
                     alert("ERROR: Fallo en el registro.");

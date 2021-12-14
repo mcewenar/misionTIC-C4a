@@ -8,7 +8,8 @@ import { createApolloProvider } from '@vue/apollo-option'
 import { setContext } from 'apollo-link-context'
 
 const httpLink = createHttpLink({
-    uri: 'https://prueba-api-nous.herokuapp.com/',
+  //  uri: 'https://prueba-api-nous.herokuapp.com/',
+    uri: 'http://localhost:4000/',
 })
 
 const authLink = setContext((_, { headers }) => {

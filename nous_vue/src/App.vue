@@ -57,7 +57,7 @@
 
           <div class="navbar-item">
             <div class="buttons">
-              <template v-if="$store.state.isAuthenticated">
+              <template v-if="is_auth">
                 <router-link to="/my-account" class="button is-light"
                   >My account</router-link
                 >
@@ -69,10 +69,16 @@
                 >
               </template>
 
+              
+
               <router-link to="/cart" class="button is-success">
                 <span class="icon"><i class="fas fa-shopping-cart"></i></span>
                 <span>Cart ({{ cartTotalLength }})</span>
               </router-link>
+              
+              <template v-if="is_auth">
+                <button class="button is-light" v-on:click="logOut">Cerrar Sesión</button>
+              </template>
             </div>
           </div>
         </div>
@@ -87,7 +93,8 @@
     </div>
 
     <section class="section">
-      <router-view v-on:completedSignUp="completedSignUp">
+      <router-view v-on:completedSignUp="completedSignUp"
+      v-on:completedLogIn="completedLogIn">
       </router-view>
     </section>
 
@@ -153,13 +160,6 @@ export default {
       this.$router.push({ name: "Home" });
     },
 
-    loadAccount: function () {
-			this.$router.push({ name: "account" });
-		},
-
-    loadTransaction: function(){
-      this.$router.push({ name: "transaction" });
-    },
 
     logOut: function () {
 			localStorage.clear();
