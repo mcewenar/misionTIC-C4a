@@ -49,11 +49,13 @@
           </div>
         </div>
 
-        <div class="navbar-end">
-          <router-link to="/cat1" class="navbar-item">Cat1</router-link>
-          <router-link to="/cat2" class="navbar-item">Cat2</router-link>
-          <router-link to="/cat3" class="navbar-item">Cat3</router-link>
-          <router-link to="/cat4" class="navbar-item">Cat4</router-link>
+        <div class="navbar-end" >
+          
+          <!-- <router-link to="/cat3" class="navbar-item">Cat3</router-link> -->
+            
+            <div v-for="category in categories" :key="category.id" class="menu">
+              <router-link   :to="{ name:'Category', params:{ category_slug:category.id } }" class="navbar-item"  style="margin-top: 5px; color: white;" >{{ category.name }}</router-link>
+            </div>
 
           <div class="navbar-item">
             <div class="buttons">
@@ -86,7 +88,7 @@
       <div class="lds-dual-ring"></div>
     </div>
 
-    <section class="section">
+    <section class="section container">
       <router-view />
     </section>
 
@@ -112,11 +114,92 @@
 </template>
 
 <script>
+import axios from "axios";
+import { toast } from 'bulma-toast'
+
+export default {
+  data() {
+    return {
+      showMobileMenu: false,
+      cart: {
+        items: [],
+      },
+      categories: []
+    };
+  },
+  beforeCreate() {
+    this.$store.commit("initializeStore");
+
+    const token = this.$store.state.token;
+
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = "Token " + token;
+    } else {
+      axios.defaults.headers.common["Authorization"] = "";
+    }
+  },
+  mounted() {
+    this.cart = this.$store.state.cart;
+    this.getCategories()
+  },
+  computed: {
+    cartTotalLength() {
+      let totalLength = 0;
+
+      for (let i = 0; i < this.cart.items.length; i++) {
+        totalLength += this.cart.items[i].quantity;
+      }
+
+      return totalLength;
+    },
+  },
+  methods: {
+    async getCategories() {
+      axios({
+            url: 'https://apigateway-nous.herokuapp.com/',
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {
+                query: `
+                  query ProductsTypes {
+                    productsTypes {
+                      name
+                      id
+                    }
+                  }
+                `,               
+            }
+        }).then((result) => {            
+            this.categories = result.data.data.productsTypes                                
+            console.log(result.data.data.productsTypes)
+        })
+        .catch(error => {
+            console.log(error)
+
+            toast({
+                message: 'Something went wrong. Please try again.',
+                type: 'is-danger',
+                dismissible: true,
+                pauseOnHover: true,
+                duration: 2000,
+                position: 'bottom-right',
+            })
+        })
+    }
+  },
+};
 </script>
 
 <style lang="scss">
 @import "../node_modules/bulma";
-
+a.navbar-item:hover{
+  background-color: #646464;
+}
+a.navbar-item:focus-within{
+  background-color:#494949;
+}
 .lds-dual-ring {
   display: inline-block;
   width: 80px;

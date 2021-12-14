@@ -2,11 +2,13 @@
     <div class="page-product">
         <div class="columns is-multiline">
             <div class="column is-9">
-                <figure class="image mb-6">
-                    <img v-bind:src="product.get_image">
+                <figure class="image mb-6" v-if ="product.photos!=null">
+                    <div  v-for="photo in product.photos" :key="photo.id">
+                        <img v-bind:src="photo.image" style="width: 600px;" >
+                    </div>
                 </figure>
 
-                <h1 class="title">{{ product.name }}</h1>
+                <h1 class="title">{{ product.name_product }}</h1>
 
                 <p>{{ product.description }}</p>
             </div>
@@ -15,7 +17,8 @@
                 <h2 class="subtitle">Information</h2>
 
                 <p><strong>Price: </strong>${{ product.price }}</p>
-
+                <p><strong>In Stock: </strong>{{ product.stock }}</p>
+                <p><strong>Category: </strong>{{ product.type_product }}</p>
                 <div class="field has-addons mt-6">
                     <div class="control">
                         <input type="number" class="input" min="1" v-model="quantity">
@@ -31,6 +34,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { toast } from 'bulma-toast'
 
 export default {
@@ -45,7 +49,47 @@ export default {
         this.getProduct() 
     },
     methods: {
-        
+        async getProduct() {
+            this.$store.commit('setIsLoading', true)
+            const product_slug = this.$route.params.product_slug
+
+            console.log(product_slug)
+            axios({
+                    url: 'https://apigateway-nous.herokuapp.com/',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    data: {
+                        query: `
+                        query ProductById($productsId: Int!) {
+                            productById(products_id: $productsId) {
+                                id_products
+                                name_product
+                                description
+                                price
+                                stock
+                                type_product
+                                photos {
+                                    image
+                                }
+                            }
+                        }
+                        `,
+                        variables: {
+                            productsId: parseInt(product_slug)
+                        }
+                    }
+                }).then((result) => {
+                    this.product = result.data.data.productById
+                    document.title = this.product.name_product + ' | Nous'
+                    console.log(result.data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            
+            this.$store.commit('setIsLoading', false)
         },
         addToCart() {
             if (isNaN(this.quantity) || this.quantity < 1) {
@@ -68,5 +112,6 @@ export default {
                 position: 'bottom-right',
             })
         }
+    }
 }
 </script>

@@ -9,9 +9,9 @@
                 <table class="table is-fullwidth">
                     <thead>
                         <tr>
-                            <th>Producto</th>
-                            <th>Precio</th>
-                            <th>Cantidad</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -39,9 +39,9 @@
             </div>
 
             <div class="column is-12 box">
-                <h2 class="subtitle">Detalles de envio</h2>
+                <h2 class="subtitle">Shipping details</h2>
 
-                <p class="has-text-grey mb-4">* Todos los campos son requeridos</p>
+                <p class="has-text-grey mb-4">* All fields are required</p>
 
                 <div class="columns is-multiline">
                     <div class="column is-6">
@@ -109,7 +109,7 @@
                 <template v-if="cartTotalLength">
                     <hr>
 
-                    <button class="button is-dark" @click="submitForm">Paga ya</button>
+                    <button class="button is-dark" @click="submitForm">Pay with Stripe</button>
                 </template>
             </div>
         </div>
@@ -117,6 +117,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'Checkout',
     data() {
@@ -226,6 +228,19 @@ export default {
                 'stripe_token': token.id
             }
 
+            await axios
+                .post('/api/v1/checkout/', data)
+                .then(response => {
+                    this.$store.commit('clearCart')
+                    this.$router.push('/cart/success')
+                })
+                .catch(error => {
+                    this.errors.push('Something went wrong. Please try again')
+
+                    console.log(error)
+                })
+
+                this.$store.commit('setIsLoading', false)
         }
     },
     computed: {

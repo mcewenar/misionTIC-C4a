@@ -6,14 +6,15 @@
             </div>
 
             <ProductBox 
-                v-for="product in category.products"
-                v-bind:key="product.id"
+                v-for="product in products"
+                v-bind:key="product.products_id"
                 v-bind:product="product" />
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 import { toast } from 'bulma-toast'
 
 import ProductBox from '@/components/ProductBox'
@@ -25,9 +26,9 @@ export default {
     },
     data() {
         return {
-            category: {
-                products: []
-            }
+            category: {},
+            products: []
+            
         }
     },
     mounted() {
@@ -41,7 +42,58 @@ export default {
         }
     },
     methods: {
-       
+        async getCategory() {
+            const categorySlug = this.$route.params.category_slug
+
+            this.$store.commit('setIsLoading', true)
+
+            axios({
+                    url: 'https://apigateway-nous.herokuapp.com/',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    data: {
+                        query: `
+                        query ProductsByType($typeProduct: Int!) {
+                            productsByType(type_product: $typeProduct) {
+                                id_products
+                                name_product
+                                description
+                                photos{ 
+                                    image
+                                    }
+                                price
+                                stock
+                                type_product
+                            }
+                        }
+                        `,
+                        variables: {
+                            typeProduct: parseInt(categorySlug)
+                        }
+                    }
+                }).then((result) => {
+                    //document.title = this.category.name + ' | Nous'
+                    this.products = result.data.data.productsByType                    
+                    
+                    console.log(result.data)
+                })
+                .catch(error => {
+                    console.log(error)
+
+                    toast({
+                        message: 'Something went wrong. Please try again.',
+                        type: 'is-danger',
+                        dismissible: true,
+                        pauseOnHover: true,
+                        duration: 2000,
+                        position: 'bottom-right',
+                    })
+                })
+
+            this.$store.commit('setIsLoading', false)
+        }
     }
 }
 </script>
